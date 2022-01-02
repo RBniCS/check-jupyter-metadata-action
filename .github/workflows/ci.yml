@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          pip3 -q install -r scripts/requirements.txt -r tests/requirements.txt
+      - name: Run flake8 checks
+        run: |
+          flake8
+      - name: Run tests
+        run: |
+          pytest tests
+      - name: Run action on successful test files
+        uses: ./
+        with:
+          pattern: tests/data/success/*.ipynb
+      - name: Run action on failing test files
+        uses: ./
+        with:
+          pattern: tests/data/fail/*.ipynb
