@@ -16,9 +16,9 @@ runs:
   steps:
     - name: Install dependencies
       run: |
-        pip3 -q install -r ${{ github.action_path }}/scripts/requirements.txt
+        pip3 -q install -r ${GITHUB_ACTION_PATH}/scripts/requirements.txt
       shell: bash
     - name: Check for stray outputs, counts and metadata in ipynb files
       run: |
-        python3 ${{ github.action_path }}/scripts/check_metadata.py "${{ inputs.pattern }}" "${{ inputs.expect-failure }}"
+        python3 ${GITHUB_ACTION_PATH}/scripts/check_metadata.py "${{ inputs.pattern }}" "${{ inputs.expect-failure }}"
       shell: bash
