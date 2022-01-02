@@ -31,3 +31,4 @@ jobs:
         uses: ./
         with:
           pattern: tests/data/fail/*.ipynb
+          expect-failure: true

@@ -12,6 +12,7 @@ Acknowledgements:
   * https://gist.github.com/francesco-ballarin/379ba630499559fa1072b2c526e57706
 """
 
+import glob
 import io
 import sys
 
@@ -22,15 +23,7 @@ class MetadataError(RuntimeError):
     """Custom runtime error with informative error message."""
 
     def __init__(self, metadata: str, filename: str) -> None:
-        super().__init__(
-            metadata + " found in notebook " + filename + ".\nPlease\n"
-            + "\t(1) install the jupyter_notebook_config.py hook available at "
-            + "https://gist.github.com/francesco-ballarin/379ba630499559fa1072b2c526e57706\n"
-            + "\t(2) open again each ipynb file that you changed, and save them again from "
-            + "the jupyter web interface (in order for the newly installed hook to act), and\n"
-            + "\t(3) rebase any commit that had changed ipynb files in order to remove unnecessary "
-            + "metadata from git history."
-        )
+        super().__init__(metadata + " found in notebook " + filename)
 
 
 def check_recursive(d: dict, key: str) -> bool:
@@ -123,11 +116,34 @@ def check_metadata(filename: str) -> None:
                     raise MetadataError("Cell metadata " + field, filename)
 
 
-if __name__ == "__main__":
-    # Get notebook name
-    assert len(sys.argv) == 2
-    filename = sys.argv[1]
-    print("Checking metadata in file", filename)
+def check_files(pattern: str, expect_failure: bool) -> None:
+    """Check all files matching a pattern for undesired metadata."""
+    metadata_errors = list()
+    for f in glob.glob(pattern, recursive=True):
+        print("Checking file", f, "for metadata")
+        try:
+            check_metadata(f)
+        except MetadataError as e:
+            metadata_errors.append(str(e))
 
-    # Check metadata
-    check_metadata(filename)
+    if not expect_failure:
+        if len(metadata_errors) > 0:
+            raise RuntimeError(
+                "The following metadata errors have been found in " + str(len(metadata_errors)) + " notebooks:"
+                + "\n\t* " + "\n\t* ".join(metadata_errors)
+                + "\nPlease do the following:\n"
+                + "\t(1) install the jupyter_notebook_config.py hook available at "
+                + "https://gist.github.com/francesco-ballarin/379ba630499559fa1072b2c526e57706\n"
+                + "\t(2) open again each ipynb file that you changed, and save them again from "
+                + "the jupyter web interface (in order for the newly installed hook to act), and\n"
+                + "\t(3) rebase any commit that had changed ipynb files in order to remove unnecessary "
+                + "metadata from git history."
+            )
+    else:
+        if len(metadata_errors) == 0:
+            raise RuntimeError("Failure was expected, but not metadata error occurred.")
+
+
+if __name__ == "__main__":
+    assert len(sys.argv) == 3
+    check_files(sys.argv[1], True if sys.argv[2] == "true" else False)

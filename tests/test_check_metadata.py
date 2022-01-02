@@ -29,7 +29,7 @@ def check_metadata(root_directory: str) -> types.ModuleType:
 
 
 def test_check_metadata_success(check_metadata: types.ModuleType, root_directory: str) -> None:
-    """Test the check_metadata script for a correctly formatted notebook."""
+    """Test the check_metadata function for a correctly formatted notebook."""
     check_metadata.check_metadata(
         os.path.join(root_directory, "tests", "data", "success", "success.ipynb"))
 
@@ -46,8 +46,27 @@ def test_check_metadata_success(check_metadata: types.ModuleType, root_directory
 def test_check_metadata_fail(
     check_metadata: types.ModuleType, root_directory: str, notebook_file: str, expected_error: str
 ) -> None:
-    """Test the check_metadata script for various incorrectly formatted notebooks."""
+    """Test the check_metadata function for various incorrectly formatted notebooks."""
     with pytest.raises(check_metadata.MetadataError) as excinfo:
         check_metadata.check_metadata(
             os.path.join(root_directory, "tests", "data", "fail", notebook_file))
     assert expected_error in str(excinfo.value)
+
+
+def test_check_files_success(check_metadata: types.ModuleType, root_directory: str) -> None:
+    """Test the check_files for correctly formatted notebooks."""
+    pattern = os.path.join(root_directory, "tests", "data", "success", "*.ipynb")
+    check_metadata.check_files(pattern, False)
+    with pytest.raises(RuntimeError) as excinfo:
+        check_metadata.check_files(pattern, True)
+    assert str(excinfo.value) == "Failure was expected, but not metadata error occurred."
+
+
+def test_check_files_fail(check_metadata: types.ModuleType, root_directory: str) -> None:
+    """Test the check_files for incorrectly formatted notebooks."""
+    pattern = os.path.join(root_directory, "tests", "data", "fail", "*.ipynb")
+    check_metadata.check_files(pattern, True)
+    with pytest.raises(RuntimeError) as excinfo:
+        check_metadata.check_files(pattern, False)
+    assert "The following metadata errors have been found in 4 notebooks" in str(excinfo.value)
+    print(str(excinfo.value))

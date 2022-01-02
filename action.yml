@@ -3,8 +3,13 @@ description: Check for stray outputs, counts and metadata in ipynb files
 
 inputs:
   pattern:
-    description: "Search pattern"
+    description: Search pattern
     required: true
+  expect-failure:
+    description: Should the metadata check fail or not
+    required: false
+    default: false
+
 
 runs:
   using: "composite"
@@ -15,7 +20,5 @@ runs:
       shell: bash
     - name: Check for stray outputs, counts and metadata in ipynb files
       run: |
-        while IFS= read -r -d '' -u 9; do
-          python3 scripts/check_metadata.py "${REPLY}"
-        done 9< <( find . -type f -wholename "./${{ inputs.pattern }}" -exec printf "%s\0" {} + )
+        python3 scripts/check_metadata.py "${{ inputs.pattern }}" "${{ inputs.expect-failure }}"
       shell: bash
