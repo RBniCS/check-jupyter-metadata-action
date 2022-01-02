@@ -1,0 +1,21 @@
+name: Check jupyter metadata
+description: Check for stray outputs, counts and metadata in ipynb files
+
+inputs:
+  pattern:
+    description: "Search pattern"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install dependencies
+      run: |
+        pip3 -q install -r scripts/requirements.txt
+      shell: bash
+    - name: Check for stray outputs, counts and metadata in ipynb files
+      run: |
+        while IFS= read -r -d '' -u 9; do
+          python3 scripts/check_metadata.py "${REPLY}"
+        done 9< <( find . -type f -wholename "./${{ inputs.pattern }}" -exec printf "%s\0" {} + )
+      shell: bash
