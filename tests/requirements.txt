@@ -3,4 +3,5 @@ flake8-docstrings
 flake8-import-restrictions
 flake8-isort
 flake8-quotes
+mypy
 pytest

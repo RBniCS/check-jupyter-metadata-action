@@ -15,6 +15,7 @@ Acknowledgements:
 import glob
 import io
 import sys
+import typing
 
 import nbformat
 
@@ -26,7 +27,7 @@ class MetadataError(RuntimeError):
         super().__init__(metadata + " found in notebook " + filename)
 
 
-def check_recursive(d: dict, key: str) -> bool:
+def check_recursive(d: typing.Dict[str, typing.Any], key: str) -> bool:
     """
     Check if undesired metadata is stored in a dictionary of metadata.
 
@@ -61,7 +62,7 @@ def check_recursive(d: dict, key: str) -> bool:
 def check_metadata(filename: str) -> None:
     """Check a jupyter notebook for undesired metadata."""
     # Unnecessary keys
-    keys = {
+    keys: typing.Dict[str, typing.Any] = {
         "metadata": [
             "collapsed",
             "celltoolbar",
