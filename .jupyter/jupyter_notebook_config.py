@@ -25,7 +25,7 @@ import notebook.services.contents.manager
 
 def post_save_hook(
     model: dict, os_path: str, contents_manager: notebook.services.contents.manager.ContentsManager,
-    **kwargs: typing.Any
+    **kwargs: typing.Any  # noqa: ANN401
 ) -> None:
     """Add a custom hook to strip outputs, unnecessary metadata and trailing spaces from notebooks."""
     # Only process notebooks
