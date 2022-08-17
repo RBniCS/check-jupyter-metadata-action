@@ -141,12 +141,15 @@ def check_files(pattern: str, expect_failure: bool) -> None:
                 + "and save the file in a jupyter config path (for instance $HOME/.jupyter; "
                 + "further available config paths can be obtained from jupyter --paths). "
                 + "Such file provides a custom hook to strip output from jupyter notebooks to be stored in git.\n"
-                + "\t(4) go to your repository clone and run\n"
+                + "\t(4) in the same folder, create the file jupyter_server_config.py as a symbolic link "
+                + "to jupyter_notebook_config.py. The former is required by jupyter lab, while "
+                + "jupyter notebook uses the latter.\n"
+                + "\t(5) go to your repository clone and run\n"
                 + "nbdime config-git --enable\n"
                 + "This allows to configure custom diff and merge commands for *.ipynb files.\n"
-                + "\t(5) open again each ipynb file that you changed, and save them again from "
+                + "\t(6) open again each ipynb file that you changed, and save them again from "
                 + "the jupyter web interface (in order for the newly installed hook to act), and\n"
-                + "\t(6) rebase any commit that had changed ipynb files in order to remove unnecessary "
+                + "\t(7) rebase any commit that had changed ipynb files in order to remove unnecessary "
                 + "metadata from git history."
             )
     else:
