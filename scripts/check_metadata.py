@@ -33,15 +33,15 @@ def check_recursive(d: typing.Dict[str, typing.Any], key: str) -> bool:
 
     Parameters
     ----------
-    d : dict
+    d
         A dictionary representing the metadata of the notebook. The dictionary may
         possibly contain other dictionaries.
-    key : str
+    key
         Name of a undesired metadata, possibly containing a dot to represent nested metadata.
 
     Returns
     -------
-    bool
+    :
         Presence of the metadata in the dictionary.
     """
     nested = key.split(".")
