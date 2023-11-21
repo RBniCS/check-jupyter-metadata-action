@@ -35,6 +35,11 @@ jobs:
         with:
           pattern: tests/data/fail/*.ipynb
           expect-failure: true
+
+  warn:
+    runs-on: ubuntu-latest
+    if: github.repository == 'RBniCS/check-jupyter-metadata-action' && github.ref == 'refs/heads/main' && github.event_name == 'schedule'
+    steps:
       - name: Warn if scheduled workflow is about to be disabled
         uses: fem-on-colab/warn-workflow-about-to-be-disabled-action@main
         with:
