@@ -19,9 +19,14 @@ jobs:
       - name: Install dependencies
         run: |
           python3 -m pip -q install -r scripts/requirements.txt -r tests/requirements.txt
-      - name: Run flake8 and mypy checks
+      - name: Run flake8
         run: |
           python3 -m flake8 .
+      - name: Run isort
+        run: |
+          python3 -m isort --check --diff .
+      - name: Run mypy
+        run: |
           python3 -m mypy .
       - name: Run tests
         run: |
