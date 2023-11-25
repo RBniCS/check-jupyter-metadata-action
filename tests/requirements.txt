@@ -6,3 +6,4 @@ Flake8-pyproject
 flake8-quotes
 mypy
 pytest
+yamllint

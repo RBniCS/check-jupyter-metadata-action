@@ -28,6 +28,9 @@ jobs:
       - name: Run mypy
         run: |
           python3 -m mypy .
+      - name: Run yamllint
+        run: |
+          python3 -m yamllint -d "{extends: default, rules: {document-start: {present: false}, line-length: disable, truthy: {check-keys: false}}}" .
       - name: Run tests
         run: |
           python3 -m pytest tests
