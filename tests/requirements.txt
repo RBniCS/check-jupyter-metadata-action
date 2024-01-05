@@ -1,9 +1,5 @@
-flake8-annotations
-flake8-docstrings
-flake8-import-restrictions
-flake8-isort
-Flake8-pyproject
-flake8-quotes
+isort
 mypy
 pytest
+ruff
 yamllint
