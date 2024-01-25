@@ -13,7 +13,6 @@ Acknowledgements:
 """
 
 import glob
-import io
 import sys
 import typing
 
@@ -92,7 +91,7 @@ def check_metadata(filename: str) -> None:
     }
 
     # Read in notebook content
-    with io.open(filename, "r", encoding="utf8") as f:
+    with open(filename, encoding="utf8") as f:
         nb = nbformat.read(f, as_version=nbformat.NO_CONVERT)  # type: ignore[no-untyped-call]
 
     # Check metadata fields

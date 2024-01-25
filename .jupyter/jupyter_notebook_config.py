@@ -12,7 +12,6 @@ Acknowledgements:
   * https://github.com/jupyter/notebook/issues/1455
 """
 
-import io
 import os
 import re
 import time
@@ -52,11 +51,11 @@ def post_save_hook(
         log.info(f"File {os_path} is currently locked: waiting...")
 
     # Create lock file
-    io.open(tmp_path, "w", encoding="utf8").close()
+    open(tmp_path, "w", encoding="utf8").close()
     log.info(f"Created lock for {os_path}.")
 
     # Read in notebook content
-    with io.open(os_path, "r", encoding="utf8") as f:
+    with open(os_path, encoding="utf8") as f:
         nb = nbformat.read(f, as_version=nbformat.NO_CONVERT)
 
     # Strip outputs and unnecessary keys
@@ -75,7 +74,7 @@ def post_save_hook(
             cell["source"] = "\n".join([line.rstrip() for line in cell["source"].split("\n")])
 
     # Overwrite notebook content
-    with io.open(os_path, "w", encoding="utf8") as f:
+    with open(os_path, "w", encoding="utf8") as f:
         nbformat.write(nb, f)
 
     # Delete lock file
