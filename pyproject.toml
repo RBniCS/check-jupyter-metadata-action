@@ -20,6 +20,7 @@ ignore_missing_imports = true
 
 [tool.ruff]
 line-length = 120
+target-version = "py38"
 select = ["ANN", "D", "E", "F", "FLY", "ICN", "N", "NPY", "Q", "RUF", "UP", "W"]
 ignore = ["ANN101"]
 
