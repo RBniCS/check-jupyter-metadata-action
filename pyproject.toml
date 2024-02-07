@@ -21,11 +21,13 @@ ignore_missing_imports = true
 [tool.ruff]
 line-length = 120
 target-version = "py38"
+
+[tool.ruff.lint]
 select = ["ANN", "D", "E", "F", "FLY", "ICN", "N", "Q", "RUF", "UP", "W"]
 ignore = ["ANN101"]
 
-[tool.ruff.pycodestyle]
+[tool.ruff.lint.pycodestyle]
 max-doc-length = 120
 
-[tool.ruff.pydocstyle]
+[tool.ruff.lint.pydocstyle]
 convention = "numpy"
