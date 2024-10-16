@@ -16,12 +16,7 @@ runs:
   steps:
     - name: Install dependencies
       run: |
-        if [ -f "/usr/lib/python3.*/EXTERNALLY-MANAGED" ]; then
-          BREAK_SYSTEM_PACKAGES_FLAG="--break-system-packages"
-        else
-          BREAK_SYSTEM_PACKAGES_FLAG=""
-        fi
-        python3 -m pip install ${BREAK_SYSTEM_PACKAGES_FLAG} -q -r ${GITHUB_ACTION_PATH}/scripts/requirements.txt
+        PIP_BREAK_SYSTEM_PACKAGES=1 python3 -m pip install ${BREAK_SYSTEM_PACKAGES_FLAG} -q -r ${GITHUB_ACTION_PATH}/scripts/requirements.txt
       shell: bash
     - name: Check for stray outputs, counts and metadata in ipynb files
       run: |
