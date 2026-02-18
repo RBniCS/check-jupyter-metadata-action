@@ -1,0 +1,17 @@
+#!/bin/bash
+# Pre-commit global hook to run a notebook cleanup script
+
+# Get repo root
+REPO_ROOT=$(git rev-parse --show-toplevel)
+
+# Get staged files
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM)
+
+for FILE in $STAGED_FILES; do
+    if [[ "$FILE" == *.ipynb ]]; then
+        # Run notebook cleanup script
+        python3 $HOME/.jupyter/clean_notebook.py "$REPO_ROOT/$FILE"
+        # Re-stage file if the script modifies it
+        git add "$FILE"
+    fi
+done

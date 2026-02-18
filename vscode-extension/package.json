@@ -1,0 +1,43 @@
+{
+    "name": "notebook-close-runner",
+    "displayName": "Notebook Close Runner",
+    "description": "Runs a Python script when you close a Jupyter Notebook",
+    "version": "0.0.1",
+    "publisher": "F. Ballarin",
+    "engines": {
+        "vscode": "^1.83.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "*"
+    ],
+    "main": "./out/extension.js",
+    "contributes": {
+        "configuration": {
+            "type": "object",
+            "title": "Notebook Close Runner Settings",
+            "properties": {
+                "notebookCloseRunner.pythonScript": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Path to the Python script to run when a notebook is closed"
+                }
+            }
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./"
+    },
+    "devDependencies": {
+        "@types/node": "^20.5.0",
+        "@types/vscode": "^1.83.0",
+        "@vscode/test-electron": "^2.3.0",
+        "typescript": "^5.1.0"
+    },
+    "dependencies": {
+        "vsce": "^2.15.0"
+    }
+}
