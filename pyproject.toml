@@ -13,14 +13,18 @@ warn_return_any = true
 warn_unused_ignores = true
 
 [[tool.mypy.overrides]]
-module = "nbformat"
+module = [
+    "jupyter_server",
+    "nbformat",
+    "nbstripout"
+]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 
 [tool.ruff]
 line-length = 120
-target-version = "py38"
+target-version = "py310"
 
 [tool.ruff.lint]
 select = ["ANN", "D", "E", "F", "FLY", "ICN", "N", "Q", "RUF", "UP", "W"]

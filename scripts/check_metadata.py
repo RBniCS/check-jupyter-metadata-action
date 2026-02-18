@@ -26,7 +26,7 @@ class MetadataError(RuntimeError):
         super().__init__(metadata + " found in notebook " + filename)
 
 
-def check_recursive(d: typing.Dict[str, typing.Any], key: str) -> bool:
+def check_recursive(d: dict[str, typing.Any], key: str) -> bool:
     """
     Check if undesired metadata is stored in a dictionary of metadata.
 
@@ -61,7 +61,7 @@ def check_recursive(d: typing.Dict[str, typing.Any], key: str) -> bool:
 def check_metadata(filename: str) -> None:
     """Check a jupyter notebook for undesired metadata."""
     # Unnecessary keys
-    keys: typing.Dict[str, typing.Any] = {
+    keys: dict[str, typing.Any] = {
         "metadata": [
             "collapsed",
             "celltoolbar",
@@ -133,16 +133,16 @@ def check_files(pattern: str, expect_failure: bool) -> None:
                 + "\n\t* " + "\n\t* ".join(metadata_errors)
                 + "\nPlease do the following:\n"
                 + "\t(1) install nbstripout and nbdime on your machine.\n"
-                + "\t(2) download the jupyter_notebook_config.py available at\n"
+                + "\t(2) download the clean_notebook.py file available at\n"
                 + "https://github.com/RBniCS/check-jupyter-metadata-action/blob/main/"
-                + ".jupyter/jupyter_notebook_config.py\n"
+                + "scripts/clean_notebook.py\n"
                 + "\t(3) replace the REPOSITORY_NAME_PLACEHOLDER with the name of your repository, "
                 + "and save the file in a jupyter config path (for instance $HOME/.jupyter; "
                 + "further available config paths can be obtained from jupyter --paths). "
                 + "Such file provides a custom hook to strip output from jupyter notebooks to be stored in git.\n"
-                + "\t(4) in the same folder, create the file jupyter_server_config.py as a symbolic link "
-                + "to jupyter_notebook_config.py. The former is required by jupyter lab, while "
-                + "jupyter notebook uses the latter.\n"
+                + "\t(4) in the same folder, create the files jupyter_notebook_config.py and jupyter_server_config.py "
+                + "as symbolic links to clean_notebook.py. The former is required by jupyter notebook, while "
+                + "jupyter lab uses the latter.\n"
                 + "\t(5) go to your repository clone and run\n"
                 + "nbdime config-git --enable\n"
                 + "This allows to configure custom diff and merge commands for *.ipynb files.\n"
