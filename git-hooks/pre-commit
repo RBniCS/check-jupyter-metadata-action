@@ -4,9 +4,15 @@
 # Get repo root
 REPO_ROOT=$(git rev-parse --show-toplevel)
 
-# Get staged files
-STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM)
+# Run local pre-commit hook, if it exists
+if [ -e $REPO_ROOT/.git/hooks/pre-commit ]; then
+    if ! ($REPO_ROOT/.git/hooks/pre-commit "$@"); then
+        exit 1;
+    fi
+fi
 
+# Apply notebook clean up script
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM)
 for FILE in $STAGED_FILES; do
     if [[ "$FILE" == *.ipynb ]]; then
         # Run notebook cleanup script
